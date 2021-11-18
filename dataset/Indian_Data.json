@@ -1,0 +1,83 @@
+{
+	"name": "Indian_Data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LNK_SADatalab",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BaseLocations"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "indian-auto-mpg.csv",
+				"container": "cntbasicstorage"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "Manufacturer",
+				"type": "String"
+			},
+			{
+				"name": "Location",
+				"type": "String"
+			},
+			{
+				"name": "Year",
+				"type": "String"
+			},
+			{
+				"name": "Kilometers_Driven",
+				"type": "String"
+			},
+			{
+				"name": "Fuel_Type",
+				"type": "String"
+			},
+			{
+				"name": "Transmission",
+				"type": "String"
+			},
+			{
+				"name": "Owner_Type",
+				"type": "String"
+			},
+			{
+				"name": "Engine CC",
+				"type": "String"
+			},
+			{
+				"name": "Power",
+				"type": "String"
+			},
+			{
+				"name": "Seats",
+				"type": "String"
+			},
+			{
+				"name": "Mileage Km/L",
+				"type": "String"
+			},
+			{
+				"name": "Price",
+				"type": "String"
+			}
+		]
+	}
+}
