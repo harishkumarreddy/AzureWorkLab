@@ -1,0 +1,10 @@
+{
+	"name": "LNK_Harish_KeyVault",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://HarishWorkLabSecrets.vault.azure.net/"
+		}
+	}
+}
