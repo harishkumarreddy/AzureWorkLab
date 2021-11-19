@@ -1,5 +1,5 @@
 {
-	"name": "DS2ndTargetSQL",
+	"name": "DSCustomeSQLtoSql",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LNK_DBS_DataLab",
@@ -13,7 +13,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "cars94_backup"
+			"table": "NonSafeCars"
 		}
 	}
 }

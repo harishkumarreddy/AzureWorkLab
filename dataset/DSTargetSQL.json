@@ -5,6 +5,9 @@
 			"referenceName": "LNK_DBS_DataLab",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "TargetLocations"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [],
