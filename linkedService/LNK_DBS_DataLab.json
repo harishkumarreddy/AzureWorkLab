@@ -1,0 +1,12 @@
+{
+	"name": "LNK_DBS_DataLab",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=harish-datalab.database.windows.net;initial catalog=DB_DataLab;user id=dbadmin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQERFQTMxMjkyLTExNTgtNDNFNS1BNkQ5LTk2ODgzRTk1MkU2Ql9hNTk4ZWQ2Zi0yMTIwLTQ5ZmEtYmJmZi0wOTI1OGY1ODM2YWEiDQp9"
+		}
+	}
+}
