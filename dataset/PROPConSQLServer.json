@@ -1,0 +1,12 @@
+{
+	"name": "PROPConSQLServer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LNK_DBS_DataLab",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
