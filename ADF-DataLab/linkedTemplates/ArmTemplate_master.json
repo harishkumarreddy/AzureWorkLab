@@ -7,13 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "ADF-DataLab"
 		},
-		"LNK_SADatalab_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LNK_SADatalab'"
-		},
 		"LNK_DBS_DataLab_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'LNK_DBS_DataLab'"
+		},
+		"LNK_SADatalab_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LNK_SADatalab'"
 		},
 		"LNK_Harish_KeyVault_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -46,11 +46,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"LNK_SADatalab_connectionString": {
-						"value": "[parameters('LNK_SADatalab_connectionString')]"
-					},
 					"LNK_DBS_DataLab_connectionString": {
 						"value": "[parameters('LNK_DBS_DataLab_connectionString')]"
+					},
+					"LNK_SADatalab_connectionString": {
+						"value": "[parameters('LNK_SADatalab_connectionString')]"
 					},
 					"LNK_Harish_KeyVault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('LNK_Harish_KeyVault_properties_typeProperties_baseUrl')]"

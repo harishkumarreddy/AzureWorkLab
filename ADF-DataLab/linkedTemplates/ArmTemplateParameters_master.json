@@ -5,10 +5,10 @@
 		"factoryName": {
 			"value": "ADF-DataLab"
 		},
-		"LNK_SADatalab_connectionString": {
+		"LNK_DBS_DataLab_connectionString": {
 			"value": ""
 		},
-		"LNK_DBS_DataLab_connectionString": {
+		"LNK_SADatalab_connectionString": {
 			"value": ""
 		},
 		"LNK_Harish_KeyVault_properties_typeProperties_baseUrl": {
