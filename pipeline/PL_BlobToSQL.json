@@ -49,7 +49,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "PROPConSQLServer",
+						"referenceName": "DSTargetSql",
 						"type": "DatasetReference"
 					}
 				]
