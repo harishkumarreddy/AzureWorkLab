@@ -1,0 +1,16 @@
+{
+	"name": "DS2ndTargetSQL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LNK_DBS_DataLab",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "cars94_backup"
+		}
+	}
+}
