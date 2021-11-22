@@ -5,6 +5,9 @@
 			"referenceName": "LNK_SADatalab",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "TargetLocations"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
