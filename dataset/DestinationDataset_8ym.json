@@ -1,0 +1,23 @@
+{
+	"name": "DestinationDataset_8ym",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LNK_SADatalab",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "NonSafty.csv",
+				"container": "output"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
