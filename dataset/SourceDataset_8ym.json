@@ -1,0 +1,129 @@
+{
+	"name": "SourceDataset_8ym",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LNK_DBS_DataLab",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SNO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Manufacturer",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Model",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Min.Price",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Price",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Max.Price",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MPG.city",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MPG.highway",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AirBags",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DriveTrain",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Cylinders",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EngineSize",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Horsepower",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Rev.per.mile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Man.trans.avail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fuel.tank.capacity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Passengers",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Length",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Wheelbase",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Width",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Turn.circle",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Rear.seat.room",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Luggage.room",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Weight",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Origin",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Make",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "NonSafeCars"
+		}
+	}
+}

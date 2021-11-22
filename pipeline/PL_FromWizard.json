@@ -1,0 +1,92 @@
+{
+	"name": "PL_FromWizard",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_8ym",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "dbo.NonSafeCars"
+					},
+					{
+						"name": "Destination",
+						"value": "output//NonSafty.csv"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"additionalColumns": [
+							{
+								"name": "CreatedBy",
+								"value": "harish"
+							},
+							{
+								"name": "CreatedAt",
+								"value": "%%CURRENT_TIMESTAMP"
+							}
+						],
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings",
+							"metadata": [
+								{
+									"name": "by",
+									"value": "Harish"
+								}
+							]
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"validateDataConsistency": false,
+					"logSettings": {
+						"enableCopyActivityLog": true,
+						"copyActivityLogSettings": {
+							"logLevel": "Warning",
+							"enableReliableLogging": false
+						},
+						"logLocationSettings": {
+							"linkedServiceName": {
+								"referenceName": "LNK_SADatalab",
+								"type": "LinkedServiceReference"
+							},
+							"path": "output"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_8ym",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_8ym",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
