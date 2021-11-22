@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_8ym",
+				"name": "SQLtoBlob",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -28,12 +28,18 @@
 						"type": "AzureSqlSource",
 						"additionalColumns": [
 							{
-								"name": "CreatedBy",
-								"value": "harish"
+								"name": "createdByy",
+								"value": {
+									"value": "@pipeline().Pipeline",
+									"type": "Expression"
+								}
 							},
 							{
-								"name": "CreatedAt",
-								"value": "%%CURRENT_TIMESTAMP"
+								"name": "createdAT",
+								"value": {
+									"value": "@utcnow()",
+									"type": "Expression"
+								}
 							}
 						],
 						"partitionOption": "None"
@@ -46,6 +52,13 @@
 								{
 									"name": "by",
 									"value": "Harish"
+								},
+								{
+									"name": "pipeline",
+									"value": {
+										"value": "@pipeline().Pipeline",
+										"type": "Expression"
+									}
 								}
 							]
 						},
