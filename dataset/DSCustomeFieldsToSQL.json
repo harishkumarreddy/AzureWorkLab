@@ -1,0 +1,19 @@
+{
+	"name": "DSCustomeFieldsToSQL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LNK_DBS_DataLab",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "TargetLocations"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "manifacturers"
+		}
+	}
+}
