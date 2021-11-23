@@ -167,6 +167,290 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_CustomeMapping')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "SNO",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SNO",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Manufacturer",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Manufacturer",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Cars93_Data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DSCustomeFieldsToSQL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Cars93_Data')]",
+				"[concat(variables('factoryId'), '/datasets/DSCustomeFieldsToSQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_CustomeQuerytoSQL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Filtering Non Safty cars",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select * from cars93 where AirBags = 'None'",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [dbo].[NonSafeCars];",
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DSTargetSQL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DSCustomeSQLtoSql",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DSTargetSQL')]",
+				"[concat(variables('factoryId'), '/datasets/DSCustomeSQLtoSql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_FromWizard')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SQLtoBlob",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "dbo.NonSafeCars"
+							},
+							{
+								"name": "Destination",
+								"value": "output//NonSafty.csv"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"additionalColumns": [
+									{
+										"name": "createdByy",
+										"value": {
+											"value": "@pipeline().Pipeline",
+											"type": "Expression"
+										}
+									},
+									{
+										"name": "createdAT",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
+								],
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings",
+									"metadata": [
+										{
+											"name": "by",
+											"value": "Harish"
+										},
+										{
+											"name": "pipeline",
+											"value": {
+												"value": "@pipeline().Pipeline",
+												"type": "Expression"
+											}
+										}
+									]
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"validateDataConsistency": false,
+							"logSettings": {
+								"enableCopyActivityLog": true,
+								"copyActivityLogSettings": {
+									"logLevel": "Warning",
+									"enableReliableLogging": false
+								},
+								"logLocationSettings": {
+									"linkedServiceName": {
+										"referenceName": "LNK_SADatalab",
+										"type": "LinkedServiceReference"
+									},
+									"path": "output"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_8ym",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_8ym",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_8ym')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_8ym')]",
+				"[concat(variables('factoryId'), '/linkedServices/LNK_SADatalab')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_SQLtoSQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -358,12 +642,39 @@
 					"referenceName": "LNK_DBS_DataLab",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "TargetLocations"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "cars94_backup"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LNK_DBS_DataLab')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSCustomeSQLtoSql')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LNK_DBS_DataLab",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TargetLocations"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "NonSafeCars"
 				}
 			},
 			"dependsOn": [
@@ -379,6 +690,9 @@
 					"referenceName": "LNK_DBS_DataLab",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "TargetLocations"
+				},
 				"annotations": [],
 				"type": "AzureSqlTable",
 				"schema": [],
@@ -389,6 +703,88 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LNK_DBS_DataLab')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_Co2Excelfile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LNK_SADatalab",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "BaseLocations"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "cars",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "cars.xlsx",
+						"container": "cntbasicstorage"
+					},
+					"range": "B3:F39",
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "Car",
+						"type": "String"
+					},
+					{
+						"name": "Model",
+						"type": "String"
+					},
+					{
+						"name": "Volume",
+						"type": "String"
+					},
+					{
+						"name": "Weight",
+						"type": "String"
+					},
+					{
+						"name": "CO2",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LNK_SADatalab')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_8ym')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LNK_SADatalab",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TargetLocations"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "NonSafty.csv",
+						"container": "output"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LNK_SADatalab')]"
 			]
 		},
 		{
@@ -480,6 +876,143 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_8ym')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LNK_DBS_DataLab",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TargetLocations"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SNO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Manufacturer",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Model",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Min.Price",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Price",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Max.Price",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MPG.city",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MPG.highway",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AirBags",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DriveTrain",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Cylinders",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EngineSize",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Horsepower",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RPM",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Rev.per.mile",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Man.trans.avail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Fuel.tank.capacity",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Passengers",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Length",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Wheelbase",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Width",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Turn.circle",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Rear.seat.room",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Luggage.room",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Weight",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Origin",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Make",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "NonSafeCars"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LNK_DBS_DataLab')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Target_Output')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -547,6 +1080,30 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSCustomeFieldsToSQL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LNK_DBS_DataLab",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TargetLocations"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "manifacturers"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LNK_DBS_DataLab')]"
+			]
 		}
 	]
 }
